@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Kubernetes Pod",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "const": "v1",
+      "description": "The API version for the Kubernetes Pod"
+    },
+    "kind": {
+      "type": "string",
+      "const": "Pod",
+      "description": "The kind of Kubernetes resource (Pod)"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the Pod"
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "containers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the container"
+              },
+              "image": {
+                "type": "string",
+                "description": "The Docker image for the container"
+              },
+              "command": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "The command to run in the container"
+              },
+              "env": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the environment variable"
+                    },
+                    "valueFrom": {
+                      "type": "object",
+                      "properties": {
+                        "configMapKeyRef": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "The name of the ConfigMap"
+                            },
+                            "key": {
+                              "type": "string",
+                              "description": "The key in the ConfigMap"
+                            }
+                          },
+                          "required": ["name", "key"],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": ["configMapKeyRef"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": ["name", "valueFrom"],
+                  "additionalProperties": false
+                }
+              },
+              "volumeMounts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the volume"
+                    },
+                    "mountPath": {
+                      "type": "string",
+                      "description": "The path where the volume will be mounted inside the container"
+                    },
+                    "readOnly": {
+                      "type": "boolean",
+                      "description": "Whether the volume should be mounted as read-only"
+                    }
+                  },
+                  "required": ["name", "mountPath", "readOnly"],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": ["name", "image", "command", "env", "volumeMounts"],
+            "additionalProperties": false
+          }
+        },
+        "volumes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the volume"
+              },
+              "configMap": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the ConfigMap to mount"
+                  },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string",
+                          "description": "The key in the ConfigMap"
+                        },
+                        "path": {
+                          "type": "string",
+                          "description": "The path to mount the ConfigMap key"
+                        }
+                      },
+                      "required": ["key", "path"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["name", "items"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["name", "configMap"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["containers", "volumes"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "additionalProperties": false
+}

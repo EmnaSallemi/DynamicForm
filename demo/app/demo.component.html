@@ -1,25 +1,24 @@
 <div class="demo-page-header">
   <mat-toolbar class="mat-elevation-z4 mat-medium" color="primary">
-    Angular JSON Schema Form — Demonstration Playground
+     JSON Schema Form — Demonstration Playground
   </mat-toolbar>
   <div class="header-content">
-    An Angular <a href="http://json-schema.org/">JSON Schema</a> Form builder
-    for Angular, similar to, and mostly API compatible with,
+    <!--An Angular <a href="http://json-schema.org/">JSON Schema</a> Form builder
+    for Angular, similar to, and mostly API compatible with,-->
     <span class="avoidwrap">
       <!-- JSON Schema Form's Angular Schema Form -->
       <!-- https://github.com/json-schema-form -->
       <!-- http://schemaform.io -->
-      <a href="http://schemaform.io/examples/bootstrap-example.html">Angular Schema Form</a>,
-      <!-- Mozilla's React JSON Schema Form -->
+      <!--<a href="http://schemaform.io/examples/bootstrap-example.html">Angular Schema Form</a>,
+       Mozilla's React JSON Schema Form -->
       <!-- https://github.com/mozilla-services/react-jsonschema-form -->
-      <a href="https://mozilla-services.github.io/react-jsonschema-form/">React JSON Schema Form</a>,
-      and
+      <!--<a href="https://mozilla-services.github.io/react-jsonschema-form/">React JSON Schema Form</a>,
+      and-->
       <!-- Joshfire's JSON Form -->
       <!-- http://factory.joshfire.com/ -->
       <!-- http://github.com/joshfire/jsonform/wiki -->
-      <a href="http://ulion.github.io/jsonform/playground/">JSON Form</a>.
+      <!--<a href="http://ulion.github.io/jsonform/playground/">JSON Form</a>.-->
     </span><br>
-    Choose an example, or create your own, and check out the generated form.<br><br>
 
     <span class="menu-label">Current example:</span>
     <button mat-raised-button
@@ -33,6 +32,13 @@
         (click)="loadSelectedExample('ng-jsf', '', example.file, example.name)">
         {{example.name}}
       </button>
+
+      <button mat-menu-item class="mat-medium"
+      *ngFor="let example of examples['asf'].schemas"
+      (click)="loadSelectedExample('asf', '', example.file, example.name)">
+      {{example.name}}
+    </button>
+<!--
       <button mat-menu-item class="mat-medium" [matMenuTriggerFor]="asfMenu">
         <span>Angular Schema Form (AngularJS) examples</span>
       </button>
@@ -42,8 +48,9 @@
           (click)="loadSelectedExample('asf', 'Angular Schema Form:', example.file, example.name)">
           {{example.name}}
         </button>
-      </mat-menu>
-      <button mat-menu-item class="mat-medium" [matMenuTriggerFor]="rjsfMenu">
+      </mat-menu>-->
+
+      <!--<button mat-menu-item class="mat-medium" [matMenuTriggerFor]="rjsfMenu">
         <span>React JSON Schema Form examples</span>
       </button>
       <mat-menu #rjsfMenu="matMenu" class="example-menu">
@@ -52,8 +59,9 @@
           (click)="loadSelectedExample('rjsf', 'React JSON Schema Form:', example.file, example.name)">
           {{example.name}}
         </button>
-      </mat-menu>
-      <button mat-menu-item class="mat-medium" [matMenuTriggerFor]="jsfMenu">
+      </mat-menu>-->
+      
+      <!--<button mat-menu-item class="mat-medium" [matMenuTriggerFor]="jsfMenu">
         <span>JSONForm (jQuery) examples</span>
       </button>
       <mat-menu #jsfMenu="matMenu" class="example-menu">
@@ -62,7 +70,7 @@
           (click)="loadSelectedExample('jsf', 'JSONForm:', example.file, example.name)">
           {{example.name}}
         </button>
-      </mat-menu>
+      </mat-menu>-->
     </mat-menu>
   </div>
 </div>
@@ -86,6 +94,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <!--
       <mat-form-field>
         <mat-select
           [(ngModel)]="selectedLanguage"
@@ -122,7 +131,7 @@
           Show debuging information?
         </mat-checkbox>
         (default = false)
-      </div>
+      </div>-->
     </div>
     <hr>
     <h4 class="default-cursor" (click)="toggleVisible('schema')">
@@ -142,7 +151,7 @@
 
   <mat-card fxFlex="0 0 calc(50% - 12px)">
     <h4 class="default-cursor" (click)="toggleVisible('form')">
-      {{visible.form ? '▼' : '▶'}} Generated Form
+      {{visible.form ? '▼' : '▶'}} {{ selectedExampleName }}
     </h4>
     <div *ngIf="visible.form" class="json-schema-form" [@expandSection]="true">
       <div *ngIf="!formActive">{{jsonFormStatusMessage}}</div>
@@ -166,7 +175,7 @@
     <h4 class="default-cursor" (click)="toggleVisible('output')">
       {{visible.output ? '▼' : '▶'}} Form Output
     </h4>
-    <div *ngIf="visible.output" fxLayout="column" [@expandSection]="true">
+    <div *ngIf="!visible.output" fxLayout="column" [@expandSection]="true">
       <div>
         Valid?:
         <strong *ngIf="formIsValid || prettyValidationErrors"
